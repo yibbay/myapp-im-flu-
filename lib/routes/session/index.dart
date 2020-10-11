@@ -10,7 +10,6 @@ import 'package:flutter_framework/common/prefs.dart';
 // Response res = await Api.zcts.getPolicyList({"pageNum": 1, "pageSize": 10});
 
 class HomePage extends StatelessWidget {
-  Db db = Db();
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -31,22 +30,38 @@ class SessionList extends StatefulWidget {
 }
 
 class SessionListState extends State {
-  Db db = Db();
-  List<Map> users = [];
+  var prefs;
+  List users = [];
+  @override
+  void initState() {
+    
+    initUser();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  initUser () async {
+    if (prefs == null) {
+      prefs = await Db.prefs();
+    }
+    String usersStr = prefs.getString("users");
+    print(usersStr);
+    setState(() {
+      users = usersStr != null ? jsonDecode(usersStr) : [];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    awit prefs = db.getPrefs();
-
-    String usersStr = prefs.getString("users");
-    users = usersStr != null ? jsonDecode(usersStr) : [];
     WsMessageListen.sessionListenCallback = (data) {
       setState(() {
+        print(data["users"]);
+
         users = data["users"];
         prefs.setString("users", jsonEncode(users));
       });
     };
     WsManager ws = WsManager(WsMessageListen.sessionListen);
-
 
     if (users.length == 0) {
       return Center(
@@ -56,7 +71,7 @@ class SessionListState extends State {
     return ListView.builder(
       itemCount: users.length,
       itemBuilder: (context, int i) {
-        Map item = users[i];
+        Map<String, dynamic> item = users[i];
         return Flex(
           direction: Axis.horizontal,
           children: [
@@ -72,26 +87,27 @@ class SessionListState extends State {
             Expanded(
               flex: 1,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(item["nickname"]),
-                  Text("Flutter 输入框的高度随内容增加自适应,且换行 - 简书", overflow: TextOverflow.ellipsis,),
-                  ListTile(title: Text('fasdfa'), onTap: () {})
-                ]
-              )
-              // .intoDecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(colors:[Colors.red,Colors.orange[700]])))
-              .intoPadding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0))
-              ,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    Text(item["nickname"]),
+                    Text(
+                      "Flutter 输入框的高度随内容增加自适应,且换行 - 简书",
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ])
+                  // .intoDecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(colors:[Colors.red,Colors.orange[700]])))
+                  .intoPadding(padding: EdgeInsets.fromLTRB(10, 0, 0, 0)),
             ),
           ],
         )
-        .intoPadding(padding: EdgeInsets.fromLTRB(20, 10, 20, 10))
-        .intoContainer(width: 720)
-        .intoGestureDetector(
-          onTap: () {
-            print(i);
-          }
-        );
+            .intoPadding(padding: EdgeInsets.fromLTRB(20, 10, 20, 10))
+            // .intoDecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(colors:[Colors.red,Colors.orange[700]])))
+            .intoGestureDetector(
+              onTap: () {
+                print(i);
+              },
+              behavior: HitTestBehavior.opaque,
+            );
       },
     );
     // ["1231", "11"].buildAllAsWidget((item) => Text(item)).intoListView();

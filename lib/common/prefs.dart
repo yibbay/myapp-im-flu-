@@ -6,10 +6,12 @@ class Db {
   factory Db ()  {
     if (_prefs == null) {
       _prefs = Db._();
+      _prefs.initPrefs();
     }
     return _prefs;
   }
-  getPrefs () {
-    return SharedPreferences.getInstance;
+  static var prefs;
+  initPrefs () {
+    prefs = SharedPreferences.getInstance;
   }
 }
