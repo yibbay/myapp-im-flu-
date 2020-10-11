@@ -32,6 +32,7 @@ class SessionList extends StatefulWidget {
 class SessionListState extends State {
   var prefs;
   List users = [];
+  int tapIndex;
   @override
   void initState() {
     
@@ -103,11 +104,22 @@ class SessionListState extends State {
             .intoPadding(padding: EdgeInsets.fromLTRB(20, 10, 20, 10))
             // .intoDecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(colors:[Colors.red,Colors.orange[700]])))
             .intoGestureDetector(
-              onTap: () {
-                print(i);
+              onTapDown: (TapDownDetails details) {
+                setState(() {
+                  tapIndex = i;
+                });
+                return false;
+              },
+              onTapUp: (TapUpDetails details) {
+                setState(() {
+                  tapIndex = null;
+                });
               },
               behavior: HitTestBehavior.opaque,
-            );
+            )
+            .intoAnimatedContainer(
+                duration: Duration(milliseconds: 150),
+                decoration: BoxDecoration(color: tapIndex == i ? Colors.grey[300] : Colors.white));
       },
     );
     // ["1231", "11"].buildAllAsWidget((item) => Text(item)).intoListView();

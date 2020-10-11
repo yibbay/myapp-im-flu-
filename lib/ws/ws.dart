@@ -11,7 +11,6 @@ class WsManager {
   WsManager._();
   factory WsManager(Function onMessage) {
     bool isExist = _bus.indexOf(onMessage) != -1;
-    print("isExist: $isExist");
 
     if (!isExist) {
       _bus.add(onMessage);
