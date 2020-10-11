@@ -1,0 +1,12 @@
+{
+  "code": "200",
+  "data": {
+    "pageNum": 1,
+    "pageSize": 10,
+    "total": 10,
+    "list": [{}]
+  },
+  "message": "成功",
+  "success": false,
+  "time": 1600755911889
+  }
