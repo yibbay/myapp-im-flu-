@@ -1,18 +1,17 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_framework/widgets/bottomBar.dart';
 import 'package:flutter_framework/ws/ws.dart';
 import 'package:widget_chain/widget_chain.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:flutter_framework/common/wsMessageListen.dart';
-import 'package:flutter_framework/common/prefs.dart';
+import 'package:flutter_framework/common/Global.dart';
 
 // Response res = await Api.zcts.getPolicyList({"pageNum": 1, "pageSize": 10});
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         appBar: AppBar(
           title: Text('会话'),
@@ -30,39 +29,24 @@ class SessionList extends StatefulWidget {
 }
 
 class SessionListState extends State {
-  var prefs;
   List users = [];
   int tapIndex;
   @override
   void initState() {
-    
-    initUser();
-    // TODO: implement initState
+    String usersStr = Global.prefs.getString("users");
+    users = usersStr != null ? jsonDecode(usersStr) : [];
     super.initState();
-  }
-
-  initUser () async {
-    if (prefs == null) {
-      prefs = await Db.prefs();
-    }
-    String usersStr = prefs.getString("users");
-    print(usersStr);
-    setState(() {
-      users = usersStr != null ? jsonDecode(usersStr) : [];
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    WsManager(WsMessageListen.sessionListen);
     WsMessageListen.sessionListenCallback = (data) {
       setState(() {
-        print(data["users"]);
-
         users = data["users"];
-        prefs.setString("users", jsonEncode(users));
+        Global.prefs.setString("users", jsonEncode(users));
       });
     };
-    WsManager ws = WsManager(WsMessageListen.sessionListen);
 
     if (users.length == 0) {
       return Center(
@@ -108,18 +92,19 @@ class SessionListState extends State {
                 setState(() {
                   tapIndex = i;
                 });
-                return false;
               },
               onTapUp: (TapUpDetails details) {
-                setState(() {
-                  tapIndex = null;
+                Timer(Duration(milliseconds: 500), () {
+                  setState(() {
+                    tapIndex = null;
+                  });
                 });
               },
               behavior: HitTestBehavior.opaque,
             )
-            .intoAnimatedContainer(
-                duration: Duration(milliseconds: 150),
-                decoration: BoxDecoration(color: tapIndex == i ? Colors.grey[300] : Colors.white));
+            .intoContainer(
+                decoration: BoxDecoration(
+                    color: tapIndex == i ? Colors.grey[300] : Colors.white));
       },
     );
     // ["1231", "11"].buildAllAsWidget((item) => Text(item)).intoListView();

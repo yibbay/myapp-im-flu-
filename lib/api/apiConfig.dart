@@ -9,9 +9,11 @@ class DioInstance {
   // 或者通过传递一个 `options`来创建dio实例
   BaseOptions options;
   Dio dio;
+  String baseUrl = "http://129.211.91.209:8000";
+  // String baseUrl = "https://www-test.cotroncloud.com/";
   DioInstance() {
     options = BaseOptions(
-      baseUrl: "https://www-test.cotroncloud.com/",
+      baseUrl: baseUrl,
       connectTimeout: 5000,
       receiveTimeout: 3000,
     );
