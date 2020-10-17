@@ -28,7 +28,7 @@ class BottomBar extends StatelessWidget {
                 Icons.mood,
               ),
               title: new Text(
-                '我',
+                '我的',
               )),
         ],
         //这是底部导航栏自带的位标属性，表示底部导航栏当前处于哪个导航标签。给他一个初始值0，也就是默认第一个标签页面。

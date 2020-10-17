@@ -2,7 +2,11 @@ import 'apiConfig.dart';
 import 'package:dio/dio.dart';
 
 class User extends DioInstance {
-  getBookList () async {
-    return dio.get("/api/user/search");
+  getUserList (map) async {
+    return dio.post("/api/user/search", data: map);
+  }
+
+  addUser (map) async {
+    return dio.post("/api/user/add", data: map);
   }
 }

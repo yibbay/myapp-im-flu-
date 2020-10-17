@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_framework/widgets/bottomBar.dart';
-import 'package:widget_chain/widget_chain.dart';
+import './login.dart';
 
 // Response res = await Api.zcts.getPolicyList({"pageNum": 1, "pageSize": 10});
 
-class Ucenter extends StatelessWidget {
+class Ucenter extends StatefulWidget {
   @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return UcenterState();
+  }
+  
+}
+
+class UcenterState extends State {
+ @override
+  void initState() {
+    
+  }
+ @override
   Widget build(BuildContext context) {
+     var a = 1;
+     if (a == 1) {
+        Future.delayed(Duration(milliseconds: 50)).then((value) {
+          Navigator.pushNamed(context, 'ucenter/login');
+        });
+        return Text('');
+     }
     // TODO: implement build
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('我'),
-        ),
-        body: Center(child: Text('我'),),
-        bottomNavigationBar: BottomBar(2));
+    return Text("fasfasd");
   }
 }
 

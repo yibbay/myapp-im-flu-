@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_framework/models/index.dart';
 import 'dart:convert';
 
-
 const _themes = <MaterialColor>[
   Colors.blue,
   Colors.cyan,
@@ -22,7 +21,7 @@ class Global {
 
   static bool get isRelease => bool.fromEnvironment("dart.vm.product");
 
-  static Future init () async {
+  static Future init() async {
     prefs = await SharedPreferences.getInstance();
     String _profile = prefs.getString('profile');
     if (_profile != null) {
@@ -33,4 +32,10 @@ class Global {
       }
     }
   }
+
+  // 持久化Profile信息
+  static saveProfile() =>
+      prefs.setString("profile", jsonEncode(profile.toJson()));
 }
+
+

@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
                   //若_calculation执行正常完成
                   List listData = snapshot.data.data["list"];
 
-                  return PolicyListView();
+                  return Text('fasd');
                 }
             }
           },
@@ -43,16 +43,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class PolicyListView extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return Loadmore(
-      api: Api.zcts.getPolicyList,
-      itemBuilder: _Text,
-    );
-  }
-}
+
 
 
 class  _Text extends StatelessWidget {
