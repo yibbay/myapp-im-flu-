@@ -3,6 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_framework/models/index.dart';
 import 'dart:convert';
 
+const _pubkey = '''-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCYTLI5jXV0Qe3tcCRrVE5AMAPB
+tL4Lf8ysbjwSHTad4XuJ0fvt9Qdj13SBU7LAhfw+TCIlYMF4aOUumtsRUpkvoUjb
+EnnptaAB3z235r6iiMbhB7eSfL/rVnOi/NQLUm0VnaDweijgA313vfkIYAXr+W2Y
+hBst0cGaBOOiZkbgsQIDAQAB
+-----END PUBLIC KEY-----''';
 const _themes = <MaterialColor>[
   Colors.blue,
   Colors.cyan,
@@ -18,6 +24,8 @@ class Global {
 
   // 可选主题
   static List<MaterialColor> get themes => _themes;
+  // 公钥
+  static String get pubkey => _pubkey; 
 
   static bool get isRelease => bool.fromEnvironment("dart.vm.product");
 

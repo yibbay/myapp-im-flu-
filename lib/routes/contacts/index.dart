@@ -38,8 +38,6 @@ class ContactsListState extends State {
 
   @override
   Widget build(BuildContext context) {
-    List usersData = Provider.of<UserModle>(context).users;
-    print(usersData);
     WsMessageListen.sessionListenCallback = (data) {
       setState(() {
         users = data["users"];

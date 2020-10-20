@@ -1,6 +1,17 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:encrypt/encrypt.dart';
+import 'package:encrypt/encrypt_io.dart';
+import 'package:flutter_framework/common/Global.dart';
+
+
+/// 公钥加密工具
+String encodePassword(String src) {
+  final parser = RSAKeyParser();
+  var pubkey = parser.parse(Global.pubkey);
+  final encrypter = Encrypter(RSA(publicKey: pubkey));
+  final res = encrypter.encrypt(src).base16.toUpperCase();
+  return res;
+}
 
 class LoginPage extends StatefulWidget {
   @override
@@ -127,12 +138,14 @@ class _LoginPageState extends State<LoginPage> {
           ),
           color: Colors.black,
           onPressed: () {
-            if (_formKey.currentState.validate()) {
+            // if (_formKey.currentState.validate()) {
               ///只有输入的内容符合要求通过才会到达此处
               _formKey.currentState.save();
               //TODO 执行登录方法
+              var a = encodePassword(_password);
+              print(a);
               print('email:$_email , assword:$_password');
-            }
+            // }
           },
           shape: StadiumBorder(side: BorderSide()),
         ),

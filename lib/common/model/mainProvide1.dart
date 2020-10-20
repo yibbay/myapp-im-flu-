@@ -1,22 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-class MainProvide extends ChangeNotifier {
-  int curNum = 0;
-  add() {
-    curNum += 1;
-    notifyListeners();
-  }
 
-  minus() {
-    curNum -= 1;
-    notifyListeners();
-  }
-}
+class CounterProvider extends ChangeNotifier {
+  int _count = 0;
 
+  int get value => _count;
 
-class UserModle extends MainProvide {
-  List get users => [];
-  set user(List data) {
+  void increment() {
+    _count++;
     notifyListeners();
   }
 }
