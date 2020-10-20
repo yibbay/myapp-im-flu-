@@ -53,16 +53,27 @@ class ScaffoldPageState extends State {
   final List<Widget> _childList = [HomePage(), Contacts(), Ucenter()];
   final List<String> _childListTitle = ['首页', '通讯录', '我'];
   int _currentIndex = 0;
+  var _pageController;
   @override
   Widget build(BuildContext context) {
     CounterProvider counterProvider = Provider.of<CounterProvider>(context);
+    _pageController = new PageController(initialPage: _currentIndex);
     print(counterProvider.value);
     // TODO: implement build
     return Scaffold(
         appBar: AppBar(
           title: Text(_childListTitle[_currentIndex]),
         ),
-        body: _childList[_currentIndex],
+        // body: _childList[_currentIndex],
+        body: PageView(
+          controller: _pageController,
+          children: this._childList,
+          onPageChanged: (int i)  {
+            setState(() {
+              _currentIndex = i;
+            });
+          },
+        ),
         bottomNavigationBar: BottomNavigationBar(
           //底部导航栏的创建需要对应的功能标签作为子项，这里我就写了3个，每个子项包含一个图标和一个title。
           items: [
@@ -93,6 +104,7 @@ class ScaffoldPageState extends State {
           //这是点击属性，会执行带有一个int值的回调函数，这个int值是系统自动返回的你点击的那个标签的位标
           onTap: (int i) {
             counterProvider.increment();
+            _pageController.jumpToPage(i);
             setState(() {
               _currentIndex = i;
             });
