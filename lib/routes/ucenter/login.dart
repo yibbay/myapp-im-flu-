@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:encrypt/encrypt.dart';
-import 'package:encrypt/encrypt_io.dart';
 import 'package:flutter_framework/common/Global.dart';
-
+import 'package:flutter_framework/api/index.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:toast/toast.dart';
 
 /// 公钥加密工具
-String encodePassword(String src) {
+Future encodePassword(String src) async {
+  String publicKeyString = await rootBundle.loadString('keys/public.pem');
   final parser = RSAKeyParser();
-  var pubkey = parser.parse(Global.pubkey);
-  final encrypter = Encrypter(RSA(publicKey: pubkey));
-  final res = encrypter.encrypt(src).base16.toUpperCase();
-  return res;
+  var publicKey = parser.parse(publicKeyString);
+  final encrypter = Encrypter(RSA(publicKey: publicKey));
+  final encrypt = encrypter.encrypt(src);
+  return encrypt.base64;
 }
 
 class LoginPage extends StatefulWidget {
@@ -20,7 +22,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  String _email, _password;
+  String _phone, _password;
   bool _isObscure = true;
   Color _eyeColor;
   List _loginMethod = [
@@ -30,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
     },
     {
       "title": "google",
-      "icon": Icons.search,
+      "icon": IconData(0xe6eb, fontFamily: 'iconfont'),
     },
     {
       "title": "twitter",
@@ -137,15 +139,16 @@ class _LoginPageState extends State<LoginPage> {
             style: Theme.of(context).primaryTextTheme.headline,
           ),
           color: Colors.black,
-          onPressed: () {
-            // if (_formKey.currentState.validate()) {
-              ///只有输入的内容符合要求通过才会到达此处
+          onPressed: () async {
+            if (_formKey.currentState.validate()) {
+              // //   ///只有输入的内容符合要求通过才会到达此处
               _formKey.currentState.save();
-              //TODO 执行登录方法
-              var a = encodePassword(_password);
-              print(a);
-              print('email:$_email , assword:$_password');
-            // }
+              String password = await encodePassword('fsdafasd');
+              var data =
+                  await Api.user.login({"phone": _phone, "password": password});
+              print('11');
+              print(data);
+            }
           },
           shape: StadiumBorder(side: BorderSide()),
         ),
@@ -200,17 +203,18 @@ class _LoginPageState extends State<LoginPage> {
 
   TextFormField buildEmailTextField() {
     return TextFormField(
+      maxLength: 11,
+      keyboardType: TextInputType.phone,
       decoration: InputDecoration(
-        labelText: 'Emall Address',
+        labelText: 'Phone Number',
       ),
       validator: (String value) {
-        var emailReg = RegExp(
-            r"[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?");
+        var emailReg = RegExp(r"^1[3|4|5|7|8|9][0-9]\d{8}");
         if (!emailReg.hasMatch(value)) {
-          return '请输入正确的邮箱地址';
+          return '请输入正确的手机号码';
         }
       },
-      onSaved: (String value) => _email = value,
+      onSaved: (String value) => _phone = value,
     );
   }
 

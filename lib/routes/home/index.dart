@@ -1,14 +1,8 @@
-import 'dart:convert';
-import 'dart:math';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_framework/api/index.dart';
 import 'package:flutter_framework/widgets/skeleton.dart';
-import 'package:flutter_framework/widgets/bottomBar.dart';
 import 'package:widget_chain/widget_chain.dart';
 import 'package:flutter_framework/widgets/loadmore.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_framework/common/model/mainProvide1.dart';
 
 // Response res = await Api.zcts.getPolicyList({"pageNum": 1, "pageSize": 10});
 
@@ -28,7 +22,6 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   }
   @override
   Widget build(BuildContext context) {
-    print('object');
     return FutureBuilder(
       future: Api.user.getUserList({"pageNum": 1, "pageSize": 15}),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -92,7 +85,7 @@ class _ItemBuilderState extends State {
     // CounterProvider counterProvider = Provider.of<CounterProvider>(context);
     // TODO: implement build
     return ListTile(
-      title: Text(itemData["name"]),
+      title: Text(itemData["phone"]),
       onTap: () {
         // counterProvider.increment();
       },

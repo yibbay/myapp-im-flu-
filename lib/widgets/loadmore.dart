@@ -33,13 +33,11 @@ class LoadmoreState extends State with AutomaticKeepAliveClientMixin  {
   _getData([int pageNum, int pageSize]) async {
     pageNum != null ? search["pageNum"] = pageNum : null;
     pageSize != null ? search["pageSize"] = pageSize : null;
-    print(search);
     Response data = await _api(search);
     Future.delayed(Duration(milliseconds: 300), () {
       setState(() {
         listData.addAll(data.data["list"]);
         total = data.data["total"];
-        print(total);
       });
     });
   }

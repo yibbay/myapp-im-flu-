@@ -31,6 +31,8 @@ dependencies:
   provider: ^4.3.2+2
   encrypt: ^3.3.1
   pointycastle : ^1.0.1
+  toast: ^0.1.3
+  webview_flutter: ^1.0.5
 
 dev_dependencies:
   flutter_test:
@@ -43,7 +45,12 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
+
+
+
 flutter:
+  assets:
+  - keys/public.pem
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -66,10 +73,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: iconfont
+      fonts:
+        - asset: fonts/iconfont.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

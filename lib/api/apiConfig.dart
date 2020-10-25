@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'dart:io';
 import 'package:dio/adapter.dart';
-import 'package:flutter_framework/models/index.dart';
+import 'package:flutter_framework/common/Global.dart';
 
 class DioInstance {
   // 或者通过传递一个 `options`来创建dio实例
@@ -40,9 +38,18 @@ class DioInstance {
       // 这样请求将被中止并触发异常，上层catchError会被调用。
     }, onResponse: (data) async {
       // 在返回响应数据之前做一些预处理
+      bool success = data.data["success"];
+      if (!success) {
+         var dataMsg = data.data["msg"];
+          String msg = dataMsg != null ? dataMsg : "网络异常，请稍后重试";
+          throw msg;
+      }
       return data.data["data"]; // continue
     }, onError: (DioError e) async {
       // 当请求失败时做一些预处理
+      print('dio er222ror');
+      String msg = e.message is String ? e.message : e.error is String ? e.error : "网络异常，请稍后重试";
+      Global.toast(msg);
       return e; //continue
     }));
   }

@@ -1,5 +1,4 @@
 import 'apiConfig.dart';
-import 'package:dio/dio.dart';
 
 class Base extends DioInstance {
   getBookList () async {

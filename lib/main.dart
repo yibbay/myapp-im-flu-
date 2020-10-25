@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import './index.dart';
 import 'package:flutter_framework/common/Global.dart';
 import 'package:flutter_framework/common/model/mainProvide1.dart';
-import 'package:widget_chain/widget_chain.dart';
 
 // void main() {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -19,24 +18,25 @@ void main(List<String> args) {
 }
 
 class MyApp extends StatelessWidget {
+  static GlobalKey<NavigatorState> navigatorState = new GlobalKey();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => CounterProvider())
-      ],
+      providers: [ChangeNotifierProvider(create: (_) => CounterProvider())],
       child: MaterialApp(
           title: 'Attorney consultation',
+          navigatorKey: navigatorState,
           routes: {
-            'session/index': (_) => HomePage(),
-            'contacts/index': (_) => Contacts(),
-            'ucenter/index': (_) => Ucenter(),
+            'index': (_) => ScaffoldPage(),
             'ucenter/login': (_) => LoginPage(),
+            'ucenter/settings': (_) => WebViewExample(),
           },
+          initialRoute: 'index',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: ScaffoldPage()),
+          home: ScaffoldPage()
+        ),
     );
   }
 }
@@ -56,19 +56,20 @@ class ScaffoldPageState extends State {
   var _pageController;
   @override
   Widget build(BuildContext context) {
-    CounterProvider counterProvider = Provider.of<CounterProvider>(context);
+    Global.appContext = context;
+
     _pageController = new PageController(initialPage: _currentIndex);
-    print(counterProvider.value);
     // TODO: implement build
     return Scaffold(
-        appBar: AppBar(
+        appBar: _currentIndex != 2 ? AppBar(
           title: Text(_childListTitle[_currentIndex]),
-        ),
+        ) : null,
         // body: _childList[_currentIndex],
         body: PageView(
           controller: _pageController,
+          physics: new NeverScrollableScrollPhysics(),
           children: this._childList,
-          onPageChanged: (int i)  {
+          onPageChanged: (int i) {
             setState(() {
               _currentIndex = i;
             });
@@ -103,7 +104,6 @@ class ScaffoldPageState extends State {
           currentIndex: _currentIndex,
           //这是点击属性，会执行带有一个int值的回调函数，这个int值是系统自动返回的你点击的那个标签的位标
           onTap: (int i) {
-            counterProvider.increment();
             _pageController.jumpToPage(i);
             setState(() {
               _currentIndex = i;
