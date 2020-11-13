@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_framework/routes/index.dart';
-import 'package:flutter_framework/widgets/bottomBar.dart';
 import 'package:flutter_framework/ws/ws.dart';
-import 'package:provider/provider.dart';
 import 'package:widget_chain/widget_chain.dart';
 import 'dart:convert';
 import 'package:flutter_framework/common/wsMessageListen.dart';
 import 'package:flutter_framework/common/Global.dart';
-import 'package:flutter_framework/common/model/mainProvide1.dart';
 
 // Response res = await Api.zcts.getPolicyList({"pageNum": 1, "pageSize": 10});
 

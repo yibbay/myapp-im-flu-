@@ -81,7 +81,9 @@ class UcenterState extends State {
             },
         ),
         Divider(height: 1,),
-        ListTile(leading: Icon(IconData(0xe628, fontFamily: 'iconfont'), size: 18), title: Text('主题'), onTap: () {},),
+        ListTile(leading: Icon(IconData(0xe628, fontFamily: 'iconfont'), size: 18), title: Text('主题'), onTap: () {
+          Navigator.of(context).pop({"index", 1});
+        },),
         Divider(height: 2,),
         ListTile(leading: Icon(Icons.language,), title: Text('语言'), onTap: () {},),
         Divider(height: 2,),
