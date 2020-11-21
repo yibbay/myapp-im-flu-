@@ -29,7 +29,10 @@ class MyApp extends StatelessWidget {
           routes: {
             'index': (_) => ScaffoldPage(),
             'ucenter/login': (_) => LoginPage(),
-            'ucenter/settings': (_) => WebViewExample(),
+            'ucenter/settings': (_) => SettingsPage(),
+            'ucenter/langualge': (_) => LanguagePage(),
+            'ucenter/webview': (_) => BaiduWebview(),
+            'ucenter/theme': (_) => ThemePage(),
           },
           initialRoute: 'index',
           theme: ThemeData(
@@ -82,21 +85,21 @@ class ScaffoldPageState extends State {
                 icon: Icon(
                   Icons.home,
                 ),
-                title: new Text(
+                title: Text(
                   '首页',
                 )),
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.business,
                 ),
-                title: new Text(
+                title: Text(
                   '通讯录',
                 )),
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.mood,
                 ),
-                title: new Text(
+                title: Text(
                   '我的',
                 )),
           ],
