@@ -11,13 +11,18 @@ List<Map> list = [
   {"name": "test", "img": img, "color": Colors.yellow},
   {"name": "test", "img": img, "color": Colors.green},
   {"name": "test", "img": img, "color": Colors.red},
+  {"name": "test", "img": img, "color": Colors.blue},
+  {"name": "test", "img": img, "color": Colors.yellow},
+  {"name": "test", "img": img, "color": Colors.green},
+  {"name": "test", "img": img, "color": Colors.red},
+  {"name": "test", "img": img, "color": Colors.blue},
 ];
 Widget bodyGrid() => SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: list.length,
-        mainAxisSpacing: 0.0,
-        crossAxisSpacing: 0.0,
-        childAspectRatio: 0.9,
+        crossAxisCount: 5, // 横轴有多少个元素
+        mainAxisSpacing: 0, // 上下间距
+        crossAxisSpacing: 0.0, // 左右间距
+        childAspectRatio: 0.92, // 宽高比
       ),
       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
         return InkWell(
