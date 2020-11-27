@@ -7,7 +7,7 @@ class DioInstance {
   // 或者通过传递一个 `options`来创建dio实例
   BaseOptions options;
   Dio dio;
-  String baseUrl = "http://localhost:8000";
+  String baseUrl = "http://129.211.91.209:8000";
 
   // String baseUrl = "https://www-test.cotroncloud.com/";
   DioInstance() {
@@ -19,9 +19,9 @@ class DioInstance {
     dio = Dio(options);
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (client) {
-      client.findProxy = (uri) {
-        return "PROXY 172.24.3.24:8888";
-      };
+      // client.findProxy = (uri) {
+      //   return "PROXY 172.24.3.24:8888";
+      // };
       //代理工具会提供一个抓包的自签名证书，会通不过证书校验，所以我们禁用证书校验
       client.badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
